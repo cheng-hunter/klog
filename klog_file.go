@@ -181,6 +181,9 @@ func openOrCreate(tag, name string, startup bool) (*os.File, error) {
 		return f, err
 	}
 	f, err := os.Create(name)
+	if delFile := countLogFile(tag, f.Name(), logging.logFileMaxCount); delFile != "" {
+		os.Remove(delFile)
+	}
 	return f, err
 }
 
